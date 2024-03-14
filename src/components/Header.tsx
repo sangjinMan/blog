@@ -24,11 +24,11 @@ export default Header;
 
 const StyledHeader = styled.div`
   width: 100%;
-  height: 60px;
-  padding: 5px 15px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 10px;
 `;
 
 const ServiceTitle = styled.span`
