@@ -48,3 +48,16 @@ export const useUpdatePost = (args: PostProps, id: number) => {
 
   return { data, ...restMutate };
 };
+
+export const useDeletePost = (id: number) => {
+  const queryClient = useQueryClient();
+  const { data, ...restMutate } = useMutation({
+    mutationFn: () => BlogService.deletePost(id),
+    onSuccess: () => {
+      alert("삭제됨");
+      queryClient.invalidateQueries({ queryKey: [POST] });
+    },
+  });
+
+  return { data, ...restMutate };
+};

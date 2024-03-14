@@ -1,12 +1,20 @@
 import { styled } from "styled-components";
 import { PostProps } from "../types/postType";
 import { useNavigate } from "react-router-dom";
+import { useDeletePost } from "../api/service";
 
 const Post = ({ id, title, content, author }: PostProps) => {
   const navi = useNavigate();
 
   const gotoCreate = () => {
     navi(`posts/${id}`);
+  };
+
+  const { mutate: deleteMutation } = useDeletePost(Number(id));
+
+  const onClickdeletePost = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    deleteMutation();
   };
 
   return (
@@ -18,7 +26,10 @@ const Post = ({ id, title, content, author }: PostProps) => {
           {content}
         </div>
       </Title>
-      <Writer>{author}</Writer>
+      <Writer>
+        <div>{author}</div>
+        <div onClick={onClickdeletePost}>(삭제)</div>
+      </Writer>
     </StyledPost>
   );
 };
@@ -56,6 +67,8 @@ const Writer = styled.div`
   border-radius: 0 0px 8px 8px;
   border-top: 0.5px solid #d9d9d9;
   display: flex;
+  justify-content: space-between;
   padding-left: 20px;
+  padding-right: 20px;
   align-items: center;
 `;
