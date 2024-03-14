@@ -1,10 +1,16 @@
 import { styled } from "styled-components";
 import { PostProps } from "../types/postType";
+import { useNavigate } from "react-router-dom";
 
-const Post = ({ title, content, author }: PostProps) => {
-  console.log(title, content, author);
+const Post = ({ id, title, content, author }: PostProps) => {
+  const navi = useNavigate();
+
+  const gotoCreate = () => {
+    navi(`posts/${id}`);
+  };
+
   return (
-    <StyledPost>
+    <StyledPost onClick={gotoCreate}>
       <BlogImg>블로그 이미지 준비중...</BlogImg>
       <Title>
         <div>{title}</div>

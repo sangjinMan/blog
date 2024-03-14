@@ -15,7 +15,9 @@ const Header = () => {
   return (
     <StyledHeader>
       <ServiceTitle onClick={gotoHome}>SangLog</ServiceTitle>
-      <span onClick={gotoWrite}>새 글 작성</span>
+      <span style={{ cursor: "pointer" }} onClick={gotoWrite}>
+        새 글 작성
+      </span>
     </StyledHeader>
   );
 };

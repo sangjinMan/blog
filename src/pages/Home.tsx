@@ -7,14 +7,12 @@ import { PostProps } from "../types/postType";
 const Home = () => {
   const { data } = useGetPosts();
 
-  console.log("data", data);
   return (
     <StyledHome>
       <Header />
       <HomeBody>
-        {data?.map((post: PostProps) => (
-          <Post {...post} />
-        ))}
+        {Array.isArray(data) &&
+          data.map((post) => <Post key={post.id} {...post} />)}
       </HomeBody>
     </StyledHome>
   );

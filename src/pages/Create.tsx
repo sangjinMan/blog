@@ -1,48 +1,30 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { PostProps, createPostProps } from "../types/postType";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetPost, useUpdatePost } from "../api/service";
-import { useEffect, useState } from "react";
+import { createPostProps } from "../types/postType";
+import { useNavigate } from "react-router-dom";
+import { useCreatePost } from "../api/service";
+import { useState } from "react";
 
-const Modify = () => {
+const Create = () => {
+  const { register, handleSubmit, reset } = useForm<createPostProps>();
   const navi = useNavigate();
-  const { register, handleSubmit, reset, setValue } = useForm<PostProps>();
-
-  const { id } = useParams();
-
-  const { data } = useGetPost(Number(id));
-
-  const [dataModify, setDataModify] = useState<PostProps>({
+  const [data, setData] = useState<createPostProps>({
     title: "",
     content: "",
     author: "",
   });
 
-  useEffect(() => {
-    if (data) {
-      setValue("title", data.title);
-      setValue("author", data.author);
-      setValue("content", data.content);
-      setDataModify({
-        title: data.title,
-        content: data.content,
-        author: data.author,
-      });
-    }
-  }, [data, setValue]);
-
-  const { mutate: updateMutation } = useUpdatePost(dataModify, Number(id));
+  const { mutate: createMutation } = useCreatePost(data);
 
   const onSubmit = async (data: createPostProps) => {
-    setDataModify(data);
-    await updateMutation();
+    setData(data);
+    await createMutation();
     reset();
     navi("/");
   };
 
   return (
-    <StyledModify>
+    <StyledCreate>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input {...register("title")} placeholder="제목을 입력하세요" />
         <div>
@@ -53,15 +35,15 @@ const Modify = () => {
           />
         </div>
         <Textarea {...register("content")} placeholder="내용을 작성해 보세요" />
-        <SubmitButton type="submit">수정하기</SubmitButton>
+        <SubmitButton type="submit">출간하기</SubmitButton>
       </form>
-    </StyledModify>
+    </StyledCreate>
   );
 };
 
-export default Modify;
+export default Create;
 
-const StyledModify = styled.div`
+const StyledCreate = styled.div`
   max-width: 1024px;
   min-height: 100vh;
   margin: 0 auto;

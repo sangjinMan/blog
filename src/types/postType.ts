@@ -1,5 +1,8 @@
 export type PostProps = {
-  title: string;
-  content: string;
-  author: string;
+  id?: number;
+  title?: string;
+  content?: string;
+  author?: string;
 };
+
+export type createPostProps = Omit<PostProps, "id">;
